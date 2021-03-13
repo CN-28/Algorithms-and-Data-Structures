@@ -1,8 +1,13 @@
 def quicksort(A, p, r):
-    if p < r:
+    while p < r:
         q = partition(A, p, r)
-        quicksort(A, p, q - 1)
-        quicksort(A, q + 1, r)
+
+        if q - p < r - q:
+            quicksort(A, p, q - 1)
+            p = q + 1
+        else:
+            quicksort(A, q + 1, r)
+            r = q - 1
     
 def partition(A, p, r):
     pivot = A[r]
