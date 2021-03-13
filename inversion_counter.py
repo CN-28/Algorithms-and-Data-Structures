@@ -14,7 +14,7 @@ def merge(T, f, mid, l):
         else:
             T[k] = R[j]
             j += 1
-            inv_cnt += 1
+            inv_cnt += mid - (f + i) + 1
     
     return inv_cnt
 
@@ -33,5 +33,5 @@ def mergesort(T, f, l):
 
     return inv_cnt
 
-A = [1, 9, 6, 4, 5]
+A = [1, 10, 7, 4, 5]
 print(mergesort(A, 0, len(A) - 1))
