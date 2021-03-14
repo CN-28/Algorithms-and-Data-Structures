@@ -1,3 +1,4 @@
+#implementation with sentinel node
 class Node:
     def __init__(self, value):
         self.value = value
