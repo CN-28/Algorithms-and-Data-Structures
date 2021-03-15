@@ -21,10 +21,11 @@ def printList(head):
     while itr:
         print(itr.value, end='--->')
         itr = itr.next
+    print()
 
 
 from random import randint
-tab = [randint(1, 10) for _ in range(10)]
+tab = [8,4, 3, 2, 1]
 head = tab2list(tab)
 
 
@@ -65,23 +66,21 @@ def qsort(L):
 
         temp = Node()
         temp.next = left
-        prev = temp
-        itr = temp.next
+        itr = temp
         tail = right
+        while itr.next != pivot:
 
-        while itr != pivot:
-            if itr.value > pivot.value:
-                tail.next, prev.next, itr = itr, prev.next.next, itr.next
+            if itr.next.value > pivot.value:
+                tail.next, itr.next = itr.next, itr.next.next
                 tail.next.next = None
                 tail = tail.next
-            elif itr.value == pivot.value:
-                pivot.next, prev.next, pivot.next.next, itr = itr, prev.next.next, pivot.next, itr.next
-                if tail.value == pivot.value:
+            elif itr.next.value == pivot.value:
+                pivot.next, itr.next, pivot.next.next = itr.next, itr.next.next, pivot.next
+                if tail.next and tail.value == pivot.value:
                     tail = tail.next
             else:
-                prev = itr
                 itr = itr.next
-        
+            
         temp = temp.next
        
         new_left = temp
@@ -95,7 +94,7 @@ def qsort(L):
             tail = tail.next
         return tail
     
-    res = quicksort(L, getLast(L))
-    return res
+    L = quicksort(L, getLast(L))
+    return L
 
 printList(qsort(head))
