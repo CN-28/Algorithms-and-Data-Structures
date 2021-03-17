@@ -1,1 +1,0 @@
-#algorytm znajdowania k-tego co do wielkości elementu w czasie liniowym
