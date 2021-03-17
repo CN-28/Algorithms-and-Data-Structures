@@ -4,103 +4,56 @@ class Node:
         self.value = value
         self.next = None
     
-class LinkedList:
-    def __init__(self):
-        self.head = None
-
-
-    def append(self, elem):
-        if not self.head:
-            self.head = Node(elem)
-            return
-        
-        itr = self.head
-        while itr.next:
-            itr = itr.next
-
-        itr.next = Node(elem)
+def mergeSort(head):
+    if not head or not head.next:
+        return head
     
-    def printList(self):
-        itr = self.head
-        while itr:
-            print(itr.value, end="---> ")
-            itr = itr.next
-        print()
+    mid = head
+    fast = head
+    while fast.next and fast.next.next:
+        mid = mid.next
+        fast = fast.next.next
 
-    def mergeSort(self, first):
-        if not first or not first.next:
-            return first
-        
-        #getting the middle element of the list
-        mid = first
-        last = first
-        
-        while last.next and last.next.next:
-            mid = mid.next
-            last = last.next.next
-        #end of getting the middle element of the list
+    right_head = mid.next
+    mid.next = None
 
-        righthead = mid.next
-        mid.next = None
+    left = mergeSort(head)
+    right = mergeSort(right_head)
+    sortedlist = mergelists(left, right)
 
-        L = self.mergeSort(first)
+    return sortedlist
 
-        R = self.mergeSort(righthead)
 
-        sortedll_head = self.sortmerge(L, R)
-        return sortedll_head
+def mergelists(head1, head2):
+    if not head1:
+        return head2
+    if not head2:
+        return head1
+
+    res = None
+
+    if head1.value <= head2.value:
+        res = head1
+        res.next = mergelists(head1.next, head2)
+    else:
+        res = head2
+        res.next = mergelists(head1, head2.next)
     
-    #rekur
-    def sort_and_merge(self, left, right):
-        if not left:
-            return right
-        if not right:
-            return left
-        
-        res = None
-        if left.value <= right.value:
-            res = left
-            res.next = self.sort_and_merge(left.next, right)
-        else:
-            res = right
-            res.next = self.sort_and_merge(left, right.next)
-        
-        return res
-    
-    #iter
-    def sortmerge(self, left, right):
-        res = None
-        if left and left.value <= right.value:
-            res = left
-            left = left.next
-        elif right:
-            res = right
-            right = right.next
+    return res
 
-        itr = res
-        while left or right:
-            if left and right and left.value <= right.value:
-                itr.next = left
-                left = left.next
-            elif right:
-                itr.next = right
-                right = right.next
-            elif left:
-                itr.next = left
-                left = left.next
+def printList(head):
+    itr = head
+    while itr:
+        print(itr.value, end='--->')
+        itr = itr.next
+    print()
 
-            itr = itr.next
-        return res
+head = Node(2)
+head.next = Node(1)
+head.next.next = Node(3)
+head.next.next.next = Node(0)
+printList(head)
 
+x = mergeSort(head)
 
-
-
-llist = LinkedList()
-llist.append(4)
-llist.append(1)
-llist.append(3)
-llist.append(5)
-
-llist.head = llist.mergeSort(llist.head)
-print("Merge sort on linked list", end=' ')
-llist.printList()
+printList(x)
