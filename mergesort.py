@@ -2,20 +2,19 @@ from random import randint, seed
 
 
 def mergesort(T):
+  temp = [T[i] for i in range(len(T))]
   def merge(T, f, m, l):
-    L = T[f:m + 1]
-    R = T[m + 1: l + 1]
-    L.append(float('inf'))
-    R.append(float('inf'))
-    
     i = j = 0
     for k in range(f, l + 1):
-      if L[i] <= R[j]:
-        T[k] = L[i]
+      if (f + i) <= m and (m + 1 + j >= l + 1 or T[f + i] <= T[m + 1 + j]):
+        temp[k] = T[f + i]
         i += 1
       else:
-        T[k] = R[j]
+        temp[k] = T[m + 1 + j]
         j += 1
+    
+    for k in range(f, l + 1):
+      T[k] = temp[k]
     
 
   #f - first element, mid - middle element, l - last element
