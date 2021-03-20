@@ -1,37 +1,39 @@
-def merge(T, f, mid, l):
-    L = T[f:mid + 1]
-    R = T[mid + 1: l + 1] 
-    L.append(float('inf'))
-    R.append(float('inf'))
-    
-    inv_cnt = 0
+def inversion_counter(T):
 
-    i = j = 0
-    for k in range(f, l + 1):
-        if L[i] <= R[j]:
-            T[k] = L[i]
-            i += 1
-        else:
-            T[k] = R[j]
-            j += 1
-            inv_cnt += mid - (f + i) + 1
-    
-    return inv_cnt
+    temp = [T[i] for i in range(len(T))]
+    def merge(T, f, m, l):
+        i = j = 0
+        inv_cnt = 0
+        for k in range(f, l + 1):
+            if (f + i) <= m and (m + 1 + j >= l + 1 or T[f + i] <= T[m + 1 + j]):
+                temp[k] = T[f + i]
+                i += 1
+            else:
+                inv_cnt += m - (f + i) + 1
+                temp[k] = T[m + 1 + j]
+                j += 1
+        
+        for k in range(f, l + 1):
+            T[k] = temp[k]
+        
+        return inv_cnt
 
 
+    def mergesort(T, f, l):
+        if f == l:
+            return 0
 
-def mergesort(T, f, l):
-    if f == l:
-        return 0
+        mid = (f + l)//2
+        inv_cnt = 0
 
-    mid = (f + l)//2
-    inv_cnt = 0
+        inv_cnt += mergesort(T, f, mid)
+        inv_cnt += mergesort(T, mid + 1, l)
+        inv_cnt += merge(T, f, mid, l)
 
-    inv_cnt += mergesort(T, f, mid)
-    inv_cnt += mergesort(T, mid + 1, l)
-    inv_cnt += merge(T, f, mid, l)
+        return inv_cnt
 
-    return inv_cnt
+    return mergesort(T, 0, len(A) - 1)
+
 
 A = [1, 10, 7, 4, 5]
-print(mergesort(A, 0, len(A) - 1))
+print(inversion_counter(A))
