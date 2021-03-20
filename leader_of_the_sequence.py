@@ -12,12 +12,10 @@ def leader(Arr):
             else:
                 stack += 1
     
-    leader = 0
     if stack > 0:
-        leader = temp
         counter = 0
         for i in range(len(Arr)):
-            if Arr[i] == leader:
+            if Arr[i] == temp:
                 counter += 1
         
         if counter > len(Arr)//2:
@@ -25,5 +23,5 @@ def leader(Arr):
     
     return False
 
-Arr = [0, 1, 2, 3, 2, 2, 0, 2, 1]
+Arr = [2, 1, 2, 3, 2, 2, 2, 2, 1]
 print(leader(Arr))
