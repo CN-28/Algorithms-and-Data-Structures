@@ -25,7 +25,7 @@ def printList(head):
 
 
 from random import randint
-tab = [8,4, 3, 2, 1]
+tab = [8, 4, 3, 2, 1, 2]
 head = tab2list(tab)
 
 
@@ -35,33 +35,30 @@ print()
 
 
 def qsort(L):
-
     def quicksort(left, right):
         if not left or left == right:
             return left
 
-        new_left = None
-        new_right = None
-        pivot, new_left, new_right = partition(left, right, new_left, new_right)
+        pivot, left, right = partition(left, right)
 
-        if new_left != pivot: 
-            itr = new_left
+        if left != pivot: 
+            itr = left
             while itr.next != pivot:
                 itr = itr.next
             itr.next = None
-            new_left = quicksort(new_left, itr)
+            left = quicksort(left, itr)
 
-            itr = getLast(new_left)
+            itr = getLast(left)
             itr.next = pivot
 
         while pivot.next and pivot.next.value == pivot.value:
             pivot = pivot.next
 
-        pivot.next = quicksort(pivot.next, new_right)
-        return new_left
+        pivot.next = quicksort(pivot.next, right)
+        return left
 
 
-    def partition(left, right, new_left, new_right):
+    def partition(left, right):
         pivot = right
 
         temp = Node()
@@ -83,9 +80,9 @@ def qsort(L):
             
         temp = temp.next
        
-        new_left = temp
-        new_right = tail
-        return pivot, new_left, new_right
+        left = temp
+        right = tail
+        return pivot, left, right
 
 
     def getLast(head):
@@ -96,5 +93,7 @@ def qsort(L):
     
     L = quicksort(L, getLast(L))
     return L
+
+
 
 printList(qsort(head))
