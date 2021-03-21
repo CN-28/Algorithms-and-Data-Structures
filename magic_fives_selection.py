@@ -24,8 +24,8 @@ def linearselect( A, k ):
         for j in range(left, right):
             if Arr[j] <= pivot:
                 i += 1
-                A[i], A[j] = A[j], A[i]
-        A[i + 1], A[right] = A[right], A[i + 1]
+                Arr[i], Arr[j] = Arr[j], Arr[i]
+        Arr[i + 1], Arr[right] = Arr[right], Arr[i + 1]
         
         return i + 1
 
