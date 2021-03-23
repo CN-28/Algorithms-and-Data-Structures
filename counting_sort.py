@@ -3,12 +3,13 @@ n = 10
 Arr = [randint(0, 55) for _ in range(n)]
 
 def counting_sort(Arr, k):
-    count = [0]*k
-    for i in range(len(Arr)):
+    n = len(Arr)
+    count = [0]*(k + 1)
+    for i in range(n):
         count[Arr[i]] += 1
 
 
-    for i in range(k):
+    for i in range(1, k + 1):
         count[i] += count[i - 1]
 
 
@@ -17,6 +18,9 @@ def counting_sort(Arr, k):
         count[Arr[i]] -= 1
         res[count[Arr[i]]] = Arr[i]
     
-    return res
+    for i in range(n):
+        Arr[i] = res[i]
 
-print(counting_sort(Arr, 55))
+
+counting_sort(Arr, 55)
+print(Arr)
