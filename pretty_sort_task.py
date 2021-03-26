@@ -63,3 +63,6 @@ def pretty_sort(T):
 Arr = [123, 455, 1266, 114577, 2344, 67333]
 pretty_sort(Arr)
 print(Arr)
+
+#let d - maximal length of the number in array
+#performance: O(10*n + d*n + 10*n + 2n + n) = O(d*n)
