@@ -38,7 +38,6 @@ def sumSort(Arr, n):
     print(temp)
     quicksort(temp)
     k = 0
-    start = temp[k][1]
     for i in range(n**2):
         if i != 0 and i % 5 == 0:
             k += 1
