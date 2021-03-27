@@ -4,11 +4,11 @@ class Node:
         self.next = None
 
 head = Node("!")
-head.next = Node(6)
-head.next.next = Node(5)
+head.next = Node(1)
+head.next.next = Node(2)
 head.next.next.next = Node(3)
-head.next.next.next.next = Node(1)
-head.next.next.next.next.next = Node(8)
+head.next.next.next.next = Node(5)
+head.next.next.next.next.next = Node(4)
 
 
 def printList(head):
@@ -27,21 +27,21 @@ def insertionSort(T):
 
     itr = T.next
     while itr.next:
-        itr1 = T
-
         temp = False
-        while itr1.next != itr.next:
-            
-            if itr.next.value < itr1.next.value and itr1.next == itr: 
-                itr.next.next, itr.next, itr1.next = itr, itr.next.next, itr1.next.next
-                temp = True
-                break
-            elif itr.next.value < itr1.next.value:
-                itr1.next, itr.next.next, itr.next = itr.next, itr1.next, itr.next.next
-                temp = True
-                break
-            
-            itr1 = itr1.next
+        if itr.next.value < itr.value:
+            itr1 = T
+            while itr1.next != itr.next:
+                
+                if itr.next.value < itr1.next.value and itr1.next == itr: 
+                    itr.next.next, itr.next, itr1.next = itr, itr.next.next, itr1.next.next
+                    temp = True
+                    break
+                elif itr.next.value < itr1.next.value:
+                    itr1.next, itr.next.next, itr.next = itr.next, itr1.next, itr.next.next
+                    temp = True
+                    break
+                
+                itr1 = itr1.next
         
         if not temp:
             itr = itr.next
