@@ -55,13 +55,19 @@ def linearselect(Arr, k):
 
 
 def section(T, p, q):
+    mini = T[linearselect(T, p - 1)]
+    maxi = T[linearselect(T, q - 1)]
     temp = []
-    for i in range(p - 1, q):
-        temp.append(Arr[linearselect(Arr, i)])
+    temp.append(mini)
+    temp.append(maxi)
+    for i in range(len(T)):
+        if T[i] < maxi and T[i] > mini:
+            temp.append(T[i])
+    
     return temp
 
 
 Arr = [188, 165, 174, 190, 169, 178, 185, 179, 182]
 print(section(Arr, 1, 5))
 
-#performance: O((q - p + 1)*n)
+#performance: O(n)
