@@ -37,7 +37,7 @@ def solve(intervals):
         for j in range(len(temp)):
             if temp[j][0] >= intervals[i][0] and temp[j][1] <= intervals[i][1]:
                 cnt += 1
-            elif temp[j][0] > intervals[i][1]:
+            elif temp[j][1] > intervals[i][1]:
                 break
         if cnt > maxi[0]:
             maxi = cnt, i
