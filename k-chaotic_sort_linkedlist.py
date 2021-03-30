@@ -13,6 +13,7 @@ class Node:
     self.val = None     
     self.next = None 
 
+
 from math import log2
 def SortH(p,k):
     def mergeSort(head):
@@ -57,15 +58,16 @@ def SortH(p,k):
         if not T or not T.next:
             return
 
-        itr = T.next
-        itr1 = T
+        prev = Node()
+        prev.next = T
+        itr = T
+        itr1 = prev
         cnt = 0
         while itr.next:
             temp = False
             if itr.next.val < itr.val:
                 temp_itr = itr1
                 while temp_itr.next != itr.next:
-                    
                     if itr.next.val < temp_itr.next.val and temp_itr.next == itr: 
                         itr.next.next, itr.next, temp_itr.next = itr, itr.next.next, temp_itr.next.next
                         temp = True
@@ -80,10 +82,10 @@ def SortH(p,k):
             if not temp:
                 itr = itr.next
             cnt += 1
-            if cnt == k:
+            if cnt >= k:
                 itr1 = itr1.next
-
-        return T
+        
+        return prev.next
 
 
     def getLength(head):
@@ -98,3 +100,29 @@ def SortH(p,k):
         return insertionSort(p, k)
     else:
         return mergeSort(p)
+
+
+def makeList(l):
+    n = len(l)
+    p = None
+    for i in range(n-1,-1,-1):
+        q = Node()
+        q.val = l[i]
+        q.next = p
+        p = q
+    return p
+
+
+def printList(head):
+    itr = head
+    while itr:
+        print(itr.val, end='--->')
+        itr = itr.next
+    print()
+
+Arr = [2, 1, 3, 6]
+head = makeList(Arr)
+
+printList(head)
+x = SortH(head, 1)
+printList(x)
