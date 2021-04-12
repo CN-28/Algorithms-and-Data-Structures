@@ -4,7 +4,7 @@ def knapsack(W, P, MaxW):
 
     for w in range(W[0], MaxW + 1):
         F[0][w] = P[0]
-
+    
     for i in range(1, n):
         for w in range(1, MaxW + 1):
             F[i][w] = F[i - 1][w]
