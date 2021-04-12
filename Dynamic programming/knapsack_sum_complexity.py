@@ -13,10 +13,11 @@ def knapsack(W, P, MaxW):
             F[i][j] = F[i - 1][j]
             if j - P[i] == 0 and F[i - 1][j] == 0:
                 F[i][j] = W[i]
-            elif F[i - 1][j - P[i]] != 0 and F[i][j] == 0:
-                F[i][j] = F[i - 1][j - P[i]] + W[i]
-            elif F[i - 1][j - P[i]] != 0 and F[i][j] != 0:
-                F[i][j] = min(F[i - 1][j - P[i]] + W[i], F[i][j])
+            elif F[i - 1][j - P[i]] != 0:
+                if F[i][j] == 0:
+                    F[i][j] = F[i - 1][j - P[i]] + W[i]
+                else:
+                    F[i][j] = min(F[i - 1][j - P[i]] + W[i], F[i][j])
                 
     for i in range(suum, -1, -1):
         if F[n - 1][i] != 0 and F[n - 1][i] <= MaxW:
