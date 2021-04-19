@@ -5,12 +5,10 @@ C = [["Wrocław", 0, 2], ["Warszawa", 4, 3], ["Gdańsk", 2, 4], ["Kraków", 3, 1
 def bitonicTSP( C ):
     n = len(C)
     C.sort(key = lambda x: x[1])
-    #print(C)
     D = [[round(((C[i][1] - C[j][1])**2 + (C[i][2] - C[j][2])**2)**(1/2), 2) for j in range(n)] for i in range(n)]
     R = [[-1]*n for _ in range(n)]
 
-    #for x in D:
-    #    print(x)
+
 
     F = [[float("inf")]*n for i in range(n)]
     F[0][1] = D[0][1]
@@ -41,8 +39,6 @@ def bitonicTSP( C ):
         res = min(res, tspf(i, n - 1, F, D, R) + D[i][n - 1])
     print(res)
 
-    for x in R:
-        print(x)
 
     T = []
     S = [[] for _ in range(2)]
