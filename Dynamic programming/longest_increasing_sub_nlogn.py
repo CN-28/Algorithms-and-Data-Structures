@@ -2,11 +2,11 @@ def lis(A):
     n = len(A)
     P = [0 for _ in range(n)]
     M = [0 for _ in range(n + 1)]
-    l = 0
+    length = 0
+
     for i in range(n):
         lo = 1
-        hi = l
-        
+        hi = length
         while lo <= hi:
             mid = (lo + hi)//2
             if A[M[mid]] < A[i]:
@@ -14,23 +14,22 @@ def lis(A):
             else:
                 hi = mid - 1
         
-        newL = lo
-        P[i] = M[newL - 1]
-        M[newL] = i
 
-        if newL > l:
-            l = newL
+        P[i] = M[lo - 1]
+        M[lo] = i
+        length = max(length, lo)
     
-    
-    S = [0 for _ in range(l)]
-    
-    k = M[l]
-    for i in range(l - 1, -1, -1):
+
+    S = [0 for _ in range(length)]
+    k = M[length]
+    for i in range(length - 1, -1, -1):
         S[i] = A[k]
         k = P[k]
     
     
     return S
+
+
 
 Arr = [0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]
 print("A: ", Arr)
