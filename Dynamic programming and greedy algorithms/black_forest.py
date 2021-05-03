@@ -4,22 +4,21 @@ Find the maximum profit for cutting trees from array A
 """
 def solve(A):
     n = len(A)
-    F = [0 for i in range(n)]
     S = [-1 for i in range(n)]
 
-    F[0] = A[0]
+    x2 = A[0]
     if A[0] > A[1]:
-        F[1] = A[0]
+        x1 = A[0]
         S[1] = 0
     else:
-        F[1] = A[1]
+        x1 = A[1]
 
     for i in range(2, n):
-        if F[i - 2] + A[i] > F[i - 1]:
+        if x2 + A[i] > x1:
             S[i] = i - 2
-            F[i] = F[i - 2] + A[i]
+            x1, x2 = x2 + A[i], x1
         else:
-            F[i] = F[i - 1]
+            x2 = x1
     
 
     res = []
@@ -42,9 +41,9 @@ def solve(A):
 
 
 
-    return F[n - 1]
+    return x1
 
 
 
-A = [3, 5, 9, 1000, 7, 2, 6, 1]
+A = [3, 5, 9, 1000, 7, 2, 6, 1, 15]
 print(solve(A))
