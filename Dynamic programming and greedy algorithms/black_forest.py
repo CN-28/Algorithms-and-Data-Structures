@@ -1,24 +1,50 @@
-def f(V, i):
-    if i in memoF:
-        return memoF[i]
-    if i == 0:
-        memoF[i] = V[0]
-        return memoF[i]
-    memoF[i] = g(V, i-1) + V[i]
-    return memoF[i]
+"""
+A[i] - profit for cutting an i-th tree, you mustn't cut two trees in a row,
+Find the maximum profit for cutting trees from array A
+"""
+def solve(A):
+    n = len(A)
+    F = [0 for i in range(n)]
+    S = [-1 for i in range(n)]
+
+    F[0] = A[0]
+    if A[0] > A[1]:
+        F[1] = A[0]
+        S[1] = 0
+    else:
+        F[1] = A[1]
+
+    for i in range(2, n):
+        if F[i - 2] + A[i] > F[i - 1]:
+            S[i] = i - 2
+            F[i] = F[i - 2] + A[i]
+        else:
+            F[i] = F[i - 1]
+    
+
+    res = []
+    index = n - 1
+    while index != 0 and index != 1:
+        if S[index] == -1:
+            index -= 1
+        else:
+            res.append(index)
+            index = S[index]
+    
+
+    if index == 1 and S[index] == 0:
+        res.append(0)
+    else:
+        res.append(1)
+    for i in range(len(res) - 1, -1, -1):
+        print(res[i], end="--> ")
+    print()
 
 
-def g(V, i):
 
-    if i in memoG:
-        return memoG[i]
-    if i == 0:
-        memoG[i] = 0
-        return memoG[i]
-    memoG[i] = max(f(V, i-1),g(V, i-1))
-    return memoG[i]
+    return F[n - 1]
 
-V = [2,3,5,7,1,11,13,0,0,17]
-memoG = {}
-memoF = {}
-print(g(V, len(V)))
+
+
+A = [3, 5, 9, 1000, 7, 2, 6, 1]
+print(solve(A))
