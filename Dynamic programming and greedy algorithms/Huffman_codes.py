@@ -10,14 +10,14 @@ def huffman(S, F):
     cnt = 0
     total = 0
     for i in range(n - 1):
-        left = queue.get(False)
-        right = queue.get(False)
+        left = queue.get()
+        right = queue.get()
 
         
         cnt = left[0] + right[0]
         total += cnt
         queue.put((cnt, (left, right)))
-    printAll(queue.get(False))
+    printAll(queue.get())
     print("bits needed:", total)
 
 
