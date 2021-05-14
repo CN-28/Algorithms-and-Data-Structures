@@ -1,3 +1,7 @@
+"""
+Find the vertex to which there is an edge from every other vertex,
+and from this vertex there is no edge to any other vertex.
+"""
 #O(n^2) solution
 def solve(G):
     n = len(G)
