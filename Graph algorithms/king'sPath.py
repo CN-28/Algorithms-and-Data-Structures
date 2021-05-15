@@ -1,7 +1,7 @@
 """
-A - nxn chessboard. Each field (i, j) has a cost from 1 to 5 placed on the field (j, i).
-In the upper left corner stands the king, he must get to the bottom right corner by passing over
-the fields with the minimum total cost. Find the cost of the king's path.
+A - nxn chessboard. The king travells across the board. He starts in the upper left corner and 
+he must get to the bottom right corner. Each field (i, j) has an entry cost of between 1 and 5, placed on the field (j, i).
+Find the cost of the king's path with mimimum total cost.
 """
 from collections import deque
 from random import randint
