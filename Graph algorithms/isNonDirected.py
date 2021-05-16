@@ -1,5 +1,3 @@
-from collections import deque
-
 def isNonDirected(G):
     n = len(G)
     A = [[0 for _ in range(n)] for _ in range(n)]
