@@ -1,13 +1,16 @@
+from collections import deque
+
 def isNonDirected(G):
     n = len(G)
+    A = [[0 for _ in range(n)] for _ in range(n)]
     for i in range(n):
         for j in range(len(G[i])):
-            temp = False
-            for k in range(len(G[G[i][j]])):
-                if G[G[i][j]][k] == i:
-                    temp = True
-                    break
-            if not temp:
+            A[i][G[i][j]] = 1
+    
+    
+    for i in range(n):
+        for j in range(i, n):
+            if A[i][j] != A[j][i]:
                 return False
     return True
 
