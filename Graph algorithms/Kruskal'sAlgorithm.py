@@ -1,4 +1,4 @@
-class Node:
+class MakeSet:
     def __init__(self, val):
         self.val = val
         self.rank = 0
@@ -31,18 +31,13 @@ def kruskal(G):
     n = len(G)
     G.sort(key = lambda x: x[2])
     print(G)
+    
 
-    
     res = []
-    
-    A = Node(G[0][0])
-    union(A, Node(G[0][1]))
-    for i in range(1, n):
-        e = Node(G[i][0])
-        union(e, Node(G[i][1]))
-        union(A, e)
-    
-    print(A.val)
+    for i in range(n):
+        if union(MakeSet(G[i][0]), MakeSet(G[i][1])) == None:
+            res.append((G[i][0], G[i][1]))
+    print(res)
 
     
 
