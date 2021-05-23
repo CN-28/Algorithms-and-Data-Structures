@@ -35,10 +35,11 @@ def kruskal(G, n):
     for u, v, w in G:
         if union(V[u], V[v]):
             res.append((u, v))
-    print(res)
     
+    return res
     
+
     
 G = [(0, 1, 2), (0, 5, 7), (0, 3, 3), (0, 4, 8), (5, 4, 1), (1, 2, 5), (2, 4, 4), (2, 3, 6), (3, 4, 12)]
 n = 6
-kruskal(G, n)
+print(kruskal(G, n))
