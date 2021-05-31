@@ -6,7 +6,6 @@ from queue import PriorityQueue
 #O(E*logV), Adjacency List
 def findAL(G, s, t):
     n = len(G)
-    visited = [False for _ in range(n)]
     dist = [float("inf") for _ in range(n)]
     parent = [-1 for _ in range(n)]
     prevVal = [None for _ in range(n)]
@@ -17,9 +16,8 @@ def findAL(G, s, t):
     Q.put((dist[s], s))
     while not Q.empty():
         c, u = Q.get()
-        visited[u] = True
         for v, w in G[u]:
-            if not visited[v] and c + w < dist[v] and (u == s or prevVal[u] > w):
+            if c + w < dist[v] and (u == s or prevVal[u] > w):
                 dist[v] = c + w
                 parent[v] = u
                 prevVal[v] = w
