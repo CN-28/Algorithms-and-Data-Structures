@@ -1,4 +1,4 @@
-#Check if you can benefit from currency exchange, all exchanges can be done.
+#Check if you can benefit from currency exchange, all exchanges can be done. Time compleixty: O(V**3)
 from math import log
 def exchange(G):
     n = len(G)
