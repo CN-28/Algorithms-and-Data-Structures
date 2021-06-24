@@ -1,4 +1,10 @@
 #Time complexity: O(V^3), space complexity: O(V^2)
+"""
+There is an undirected, weighted (E -> N) graph G and a two-mile shoes.
+Two-mile shoes allow you to jump through two edges at one time, paying only for maximum of these two edges.
+Between each use of two-mile shoes you must go through at least 1 edge without the mile-shoes.
+Find the minimum cost to get from the vertex s to the vertex t.
+"""
 def jumper(G, s, t):
     n = len(G)
     dist = [(float("inf"), float("inf")) for _ in range(n)]
