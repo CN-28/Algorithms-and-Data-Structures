@@ -29,20 +29,19 @@ def f(T, k):
         return T.X.f[k]
     
 
-    opt = -float("inf")
+    T.X.f[k] = -float("inf")
     if T.right:
-        opt = max(opt, T.rightval + f(T.right, k - 1))
+        T.X.f[k] = max(T.X.f[k], T.rightval + f(T.right, k - 1))
     
     if T.left:
-        opt = max(opt, T.leftval + f(T.left, k - 1))
+        T.X.f[k] = max(T.X.f[k], T.leftval + f(T.left, k - 1))
     
     if T.left and T.right and k >= 2:
         for i in range(1, k):
-            opt = max(opt, T.leftval + f(T.left, i - 1) + T.rightval + f(T.right, k - i - 1))
+            T.X.f[k] = max(T.X.f[k], T.leftval + f(T.left, i - 1) + T.rightval + f(T.right, k - i - 1))
     
 
-    T.X.f[k] = opt
-    return opt
+    return T.X.f[k]
 
 
 
@@ -57,9 +56,8 @@ def g(T, k):
         return T.X.g
     
     
-    opt = max(g(T.left, k), g(T.right, k), f(T, k))
-    T.X.g = opt
-    return opt
+    T.X.g = max(g(T.left, k), g(T.right, k), f(T, k))
+    return T.X.g
 
 
 
