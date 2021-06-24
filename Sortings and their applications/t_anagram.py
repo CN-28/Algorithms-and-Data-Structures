@@ -6,6 +6,8 @@ def tanagram(x, y, t):
     for i in range(n):
         positions[ord(y[i]) - 97].append(i)
     for i in range(n):
+        if len(positions[ord(x[i]) - 97]) == 0:
+            return False
         closest = positions[ord(x[i]) - 97].popleft()
         if abs(closest - i) > t:
             return False
