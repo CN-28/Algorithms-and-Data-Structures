@@ -5,20 +5,21 @@ j - i energy points, frog starts with 0 energy points, and energy points mustn't
 """
 def solve(A):
     n = len(A)
-    F = [(float("inf"), 0) for _ in range(n)]
+    F = [[float("inf") for _ in range(n)] for _ in range(n)]
+    F[0][0] = 0
+    
 
-    F[0] = 0, A[0]
     for i in range(1, n):
-        for j in range(i):
-            mana = F[j][1]
-            if mana >= i - j and F[j][0] + 1 < F[i][0]:
-                F[i] = F[j][0] + 1, mana - (i - j) + A[i]
-                
-            
+        for j in range(n):
+            for k in range(i):
+                if j + A[k] - (i - k) >= 0:
+                    F[i][min(j + A[k] - (i - k), n - 1)] = min(F[i][min(j + A[k] - (i - k), n - 1)], F[k][j] + 1)
+        
+    
+    
+    return min(F[n - 1])
 
-    return F[n - 1][0]
 
 
-
-A = [6, 3, 5, 4, 7, 2, 3, 1, 3, 1, 1, 1, 1, 1]
+A = [2, 2, 1, 0, 0, 0]
 print(solve(A))
