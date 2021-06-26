@@ -43,8 +43,7 @@ def select_buildings(T, p):
         if F[n - 1][i] > F[n - 1][maxi_ind]:
             maxi_ind = i
 
-    for x in F:
-        print(x)
+    
     i = n - 1
     j = maxi_ind
     res = []
