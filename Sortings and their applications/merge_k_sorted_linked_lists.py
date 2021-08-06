@@ -1,55 +1,62 @@
 class Node:
-    def __init__(self, value):
-        self.value = value
+    def __init__(self, val):
+        self.val = val
         self.next = None
+
+
+
+def merge(head1, head2):
+    res = None
+    if head1 and (not head2 or head1.val < head2.val):
+        res = head1
+        res.next = merge(head1.next, head2)
+    elif head2:
+        res = head2
+        res.next = merge(head1, head2.next)
+    
+    return res
+
+
+
+def mergeKlists(A):
+    i = 0
+    j = len(A) - 1
+    while i != 0 or j != 0:
+        temp = j
+        while i < temp:
+            A[i] = merge(A[i], A[temp])
+            i += 1
+            temp -= 1
+        i = 0
+        j //= 2
+    
+
 
 def printList(head):
     itr = head
     while itr:
-        print(itr.value, end='--->')
+        print(itr.val, end="--->")
         itr = itr.next
-    print()
 
 
-def merge2lists(head1, head2):
-    res = None
 
-    if not head1:
-        return head2
-    elif not head2:
-        return head1
+L1 = Node(1)
+L1.next = Node(5)
+L1.next.next = Node(9)
 
-    if head1.value <= head2.value:
-        res = head1
-        res.next = merge2lists(head1.next, head2)
-    else:
-        res = head2
-        res.next = merge2lists(head1, head2.next)
-    
-    return res
+L2 = Node(2)
+L2.next = Node(6)
+L2.next.next = Node(10)
 
-def mergeklists(A):
-    last = len(A) - 1
-    while last != 0:
-        i = 0
-        j = last
-    
-        while i < j:
-            A[i] = merge2lists(A[i], A[j])
-            i += 1
-            j -= 1
+L3 = Node(3)
+L3.next = Node(7)
+L3.next.next = Node(11)
 
-            if i >= j:
-                last = j
+L4 = Node(4)
+L4.next = Node(8)
+L4.next.next = Node(12)
 
-    return A[0]
 
-tab = []
-tab.append(Node(2))
-tab[0].next = Node(4)
-tab.append(Node(1))
-tab.append(Node(4))
-tab.append(Node(0))
-tab.append(Node(9))
-x = mergeklists(tab)
-printList(x)
+A = [L1, L2, L3, L4]
+mergeKlists(A)
+printList(A[0])
