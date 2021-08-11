@@ -1,6 +1,6 @@
-#there is array with ceil(logn) different values, sort array in O(n*log(logn))
+#there is array with ceil(logn) different values, sort array
 
-#first approach
+#first approach, O(n * log(log(n)))
 def binary_search(A, n, x):
     left = 0
     right = n
@@ -34,7 +34,7 @@ for i in range(len(Arr)):
     else:
         count[index] += 1
 
-print(count)
+
 index = 0
 for i in range(len(temp)):
     for j in range(count[i]):
@@ -45,41 +45,27 @@ print(Arr)
 print()
 
 
-#second approach
+#second approach using dictionary, O(n)
+A = [3, 2, 1, 1, 2, 3, 3, 2]
+hashmap = {}
+n = len(A)
+for i in range(n):
+    if A[i] in hashmap:
+        hashmap[A[i]] += 1
+    else:
+        hashmap[A[i]] = 1
 
-def partition(T, left, right):
-    k = right
-    i = left
-    j = left
-    while j < k:
-        if T[j] < T[right]:
-            T[i], T[j] = T[j], T[i]
-            i += 1
-            j += 1
-        elif T[j] == T[right]:
-            if j == k:
-                break
-            k -= 1
-            T[k], T[j] = T[j], T[k]
-        else:
-            j += 1
-    start = i
-    for index in range(k, right+1):
-        T[i], T[index] = T[index], T[i]
+temp = []
+for k in hashmap:
+    temp.append(k)
+temp.sort()
+
+i = 0
+j = 0
+while j < len(temp):
+    while hashmap[temp[j]] != 0:
+        hashmap[temp[j]] -= 1
+        A[i] = temp[j]
         i += 1
-    return start, i
-
-
-def quickSort(T, left, right):
-    if left < right:
-        q, r = partition(T, left, right)
-        if q > left:
-            quickSort(T, left, q-1)
-        if r != right:
-            quickSort(T, r, right)
-
-
-T = [0, 0, 0, 0, 2, 0, 1, 2, 2, 2, 2, 2,
-     2, 2, 4, 4, 4, 45, 8, 12, 456, 34, 2]
-quickSort(T, 0, len(T)-1)
-print(T)
+    j += 1
+print(A)
