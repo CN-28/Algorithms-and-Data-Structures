@@ -1,6 +1,6 @@
-#find largest difference of numbers that are next to each other in linear time
+#find largest difference of numbers that are next to each other after sorting in asceding order
 
-
+#Time complexity: O(n)
 def find(Arr):
     n = len(Arr)
     maxi = max(Arr)
@@ -17,10 +17,9 @@ def find(Arr):
         if len(buckets[i]) != 0:
             res = max(res, min(buckets[i]) - maxi)
             maxi = max(buckets[i])
-    print(buckets)
+    
     return res
+
 
 Arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 35]
 print(find(Arr))
-Arr.sort()
-print(Arr)
