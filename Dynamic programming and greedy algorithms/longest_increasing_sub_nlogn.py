@@ -1,36 +1,37 @@
+#Time complexity: O(n * log(n))
 def lis(A):
     n = len(A)
-    P = [0 for _ in range(n)]
-    M = [0 for _ in range(n + 1)]
-    length = 0
+    prev = [-1 for _ in range(n)]
+    last = [-1 for _ in range(n)]
 
-    for i in range(n):
-        lo = 1
-        hi = length
-        while lo <= hi:
-            mid = (lo + hi)//2
-            if A[M[mid]] < A[i]:
-                lo = mid + 1
+
+    last[0] = 0
+    length = 1
+    for i in range(1, n):
+        left = 0
+        right = length - 1
+        mid = None
+        while left <= right:
+            mid = (left + right) // 2
+            if A[last[mid]] < A[i]:
+                left = mid + 1
             else:
-                hi = mid - 1
+                right = mid - 1
+    
+    
+        prev[i] = last[left - 1]
+        last[left] = i
+        length = max(length, left + 1)
         
 
-        P[i] = M[lo - 1]
-        M[lo] = i
-        length = max(length, lo)
-    
-
-    S = [0 for _ in range(length)]
-    k = M[length]
+    res = [None for _ in range(length)]
+    index = last[length - 1]
     for i in range(length - 1, -1, -1):
-        S[i] = A[k]
-        k = P[k]
+        res[i] = A[index]
+        index = prev[index]
     
-    
-    return S
+    return res
 
 
-
-Arr = [0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]
-print("A: ", Arr)
-print(lis(Arr))
+A = [0,8,4,12,2,10,6,14,1,9,5,13,3,11,7,15]
+print(lis(A))
