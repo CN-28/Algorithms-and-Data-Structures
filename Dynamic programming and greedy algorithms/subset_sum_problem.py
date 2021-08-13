@@ -1,28 +1,19 @@
-def isSubsetSum(A, sum):
+def subsetSum(A, T):
     n = len(A)
-    subset = [[False for i in range(sum + 1)] for i in range(n + 1)]
-     
-
+    F = [[False for _ in range(T + 1)] for _ in range(n + 1)]
     for i in range(n + 1):
-        subset[i][0] = True
-         
-
-    for i in range(1, sum + 1):
-         subset[0][i]= False
-
+        F[i][0] = True
 
     for i in range(1, n + 1):
-        for j in range(1, sum + 1):
-            if j < A[i-1]:
-                subset[i][j] = subset[i-1][j]
-            elif j >= A[i-1]:
-                subset[i][j] = subset[i-1][j] or subset[i - 1][j-A[i-1]]
-     
-   
-    return subset[n][sum]
-         
+        for j in range(T + 1):
+            if j < A[i - 1]:
+                F[i][j] = F[i - 1][j]
+            else:
+                F[i][j] = F[i - 1][j] or F[i - 1][j - A[i - 1]]
+    
+    return F[n][T]
 
 
-A = [3, 34, 4, 12, 5, 2]
-sum = 34
-print(isSubsetSum(A, sum))
+
+A = [5, 3, 1, 4, 7, 2, 9]
+print(subsetSum(A, 25))
