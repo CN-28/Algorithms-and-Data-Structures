@@ -1,19 +1,17 @@
-def mincost(Arr):
-    n = len(Arr) - 1
-    F = [[float("inf") if i != j else 0 for j in range(n)] for i in range(n)]
-    
-    
-    for length in range(2, n + 1):
-        for i in range(n - length + 1):
-            end = i + length - 1
-            for j in range(i, end):
-                cost = F[i][j] + F[j + 1][end] + Arr[i]*Arr[j + 1]*Arr[end + 1]
-                if cost < F[i][end]:
-                    F[i][end] = cost
+#matrix chain multiplication, time complexity: O(n**3)
+def matrixChainMultiplication(A):
+    n = len(A)
+    F = [[0 if i == j else float("inf") for j in range(n)] for i in range(n)]
 
+
+    for k in range(1, n):
+        for i in range(n - k):
+            for j in range(k):
+                F[i][i + k] = min(F[i][i + j] + F[i + j + 1][i + k] + A[i][0] * A[i + j][1] * A[i + k][1], F[i][i + k])
+                
     return F[0][n - 1]
 
-            
-                
-Arr = [3, 2, 4, 2, 5]
-print(mincost(Arr))
+
+
+A = [(40, 20), (20, 30), (30, 10), (10, 30)]
+print(matrixChainMultiplication(A))
