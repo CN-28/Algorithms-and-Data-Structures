@@ -2,50 +2,46 @@
 A - two dimensional array(nxn) filled with rational numbers that indicate the cost of standing on the
 (i, j) field, starting from (0, 0) find the cheapest way, which leads to the A[n - 1][n - 1]
 """
-def mincost(A):
+#Time complexity: O(n**2), space complexity: O(n**2), if only the cost of the cheapest path is needed space complexity can be reduced to O(n)
+def minpath(A):
     n = len(A)
-    F = [[0 for _ in range(n)] for _ in range(n)]
+    F = [[float("inf") for _ in range(n)] for _ in range(2)]
     S = [[-1 for _ in range(n)] for _ in range(n)]
-
-
     F[0][0] = A[0][0]
-    for i in range(1, n):
-        F[i][0] = F[i - 1][0] + A[i][0]
-        F[0][i] = F[0][i - 1] + A[0][i]
+
+
+    for i in range(n):
+        for j in range(n):
+            if j + 1 < n and F[0][j] + A[i][j + 1] < F[0][j + 1]:
+                F[0][j + 1] = F[0][j] + A[i][j + 1]
+                S[i][j + 1] = (i, j)
+            if i + 1 < n and F[0][j] + A[i + 1][j] < F[1][j]:
+                F[1][j] = F[0][j] + A[i + 1][j]
+                S[i + 1][j] = (i, j)
+        if i + 1 < n:
+            for i in range(n):
+                F[0][i], F[1][i] = F[1][i], float("inf")
     
-
-    for i in range(1, n):
-        for j in range(1, n):
-            if F[i - 1][j] < F[i][j - 1]:
-                S[i][j] = (i - 1, j)
-                F[i][j] = F[i - 1][j] + A[i][j]
-            else:
-                S[i][j] = (i, j - 1)
-                F[i][j] = F[i][j - 1] + A[i][j]
-   
-
-    R = []
+    res = []
     index = n - 1, n - 1
-    while index[0] != 0 and index[1] != 0:
-        R.append(index)
+    while index != -1:
+        res.append((index[0], index[1]))
         index = S[index[0]][index[1]]
-    R.append(index)
-    R.append((0, 0))
     
-
-    for i in range(len(R) - 1, -1 , -1):
-        print(R[i], end=" --> ")
+    for i in range(len(res) - 1, - 1, -1):
+        print(res[i], end="-->")
     print()
-    return F[n - 1][n - 1]
+
+
+    return F[0][n - 1]
 
 
 
 A = [
-    [2, 8, 3, 1],
-    [1, 4, 5, 2],
-    [5, 8, 7, 2],
-    [1, 9, 2, 3]
+    [1, 1, 1, 1, 6],
+    [1, 1, 3, 4, 5],
+    [1, 2, 3, 4, 1],
+    [5, 2, 1, 1, 1],
+    [8, 1, 1, 1, 1]
 ]
-for x in A:
-    print(x)
-print(mincost(A))
+print(minpath(A))
