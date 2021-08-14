@@ -22,7 +22,7 @@ def maxCutProfit(A):
             i -= 2
     
     
-    if res[len(res) - 1] == 2:
+    if len(res) > 0 and res[len(res) - 1] == 2:
         res.append(A[0])
     else:
         if A[1] > A[0]:
