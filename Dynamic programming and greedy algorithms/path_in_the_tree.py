@@ -4,50 +4,51 @@ There is rooted tree, each vertex has value - negative or non-negative number, f
 class Node:
     def __init__(self, val):
         self.val = val
-        self.down = []
+        self.children = []
         self.f = 0
 
-#tree
-v = Node(75)
-v.down.append(Node(-1000))
-v.down.append(Node(601))
-v.down.append(Node(-243))
-v.down[0].down.append(Node(12))
-v.down[0].down.append(Node(4))
-v.down[2].down.append(Node(45))
-v.down[2].down.append(Node(8))
-v.down[2].down.append(Node(1))
-v.down[2].down.append(Node(145))
-v.down[2].down[1].down.append(Node(10000))
-v.down[2].down[1].down.append(Node(-12))
 
 
-
-def solve(v, maxi):
-    if len(v.down) == 0:
-        return v.val
-
-
-    res = []
-    for i in range(len(v.down)):
-        res.append(max(0, v.val, v.val + solve(v.down[i], maxi)))
+def mostValuablePath(T, v, maxi=[]):
+    n = len(T.children)
+    if n == 0:
+        T.f = T.val
+        return T.f
     
     
     next_max = 0
-    index = -1
-    for i in range(len(v.down)):
-        if res[i] > v.f:
-            v.f = res[i]
-            index = i
+    for i in range(n):
+        temp = max(0, T.f, T.val, T.val + mostValuablePath(T.children[i], v, maxi))
+        if temp != T.f:
+            next_max = T.f
+        T.f = temp
 
     
-    for i in range(len(v.down)):
-        if res[i] > next_max and i != index:
-            next_max = res[i]
+    if next_max != 0:
+        maxi.append(T.f + next_max - T.val)
+    maxi.append(T.f)
+    if T == v:
+        return max(maxi)
+    return T.f
 
 
-    return max(0, v.f, v.f + next_max - abs(v.val))
+
+def makeTree():
+    T = Node(70)
+    T.children.append(Node(24))
+    T.children.append(Node(-200))
+    T.children.append(Node(11))
+    T.children[0].children.append(Node(45))
+    T.children[0].children.append(Node(-100))
+    T.children[1].children.append(Node(5))
+    T.children[1].children.append(Node(10))
+    T.children[1].children.append(Node(30))
+    T.children[1].children.append(Node(1000))
+    T.children[2].children.append(Node(8))
+    T.children[2].children.append(Node(7))
+    T.children[2].children.append(Node(9))
+    return T
 
 
-
-print(solve(v, 0))
+T = makeTree()
+print(mostValuablePath(T, T))
