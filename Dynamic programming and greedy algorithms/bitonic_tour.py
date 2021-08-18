@@ -1,7 +1,3 @@
-from math import *
-
-C = [["Wrocław", 0, 2], ["Warszawa", 4, 3], ["Gdańsk", 2, 4], ["Kraków", 3, 1]]
-
 def bitonicTSP( C ):
     n = len(C)
     C.sort(key = lambda x: x[1])
@@ -9,10 +5,8 @@ def bitonicTSP( C ):
     R = [[-1]*n for _ in range(n)]
 
 
-
     F = [[float("inf")]*n for i in range(n)]
     F[0][1] = D[0][1]
-
     def tspf(i, j, F, D, R):
         if F[i][j] != float("inf"):
             return F[i][j]
@@ -34,13 +28,14 @@ def bitonicTSP( C ):
 
         return F[i][j]
     
+
+
     res = float("inf")
     for i in range(n - 1):
         res = min(res, tspf(i, n - 1, F, D, R) + D[i][n - 1])
-    print(res)
+    
 
-
-    T = []
+    path = []
     S = [[] for _ in range(2)]
     k = 0
     i = n - 2
@@ -50,20 +45,26 @@ def bitonicTSP( C ):
         j = R[i][j]
         if j < i:
             i, j = j, i
-            k = 1 - k
-    
+            k = 2 - (k + 1)
+
     S[0].append(0)
-    while len(S[1]) > 0:
+    while len(S[1]) != 0:
         S[0].append(S[1].pop())
-    
+
     for i in range(n):
-        T.append(C[S[0].pop()])
+        path.append(C[S[0].pop()][0])
     
-    for i in range(n//2 - 1, n):
-        print(T[i][0], end=" ")
+    
+    for i in range(n - 1, -1, -1):
+        if path[i] == C[0][0]:
+            for j in range(n, -1, -1):
+                if j != 0:
+                    print(path[(i + j) % len(path)], end=", ")
+                else:
+                    print(path[(i + j) % len(path)])
+            break
+    
 
-    for i in range(0, n//2):
-        print(T[i][0], end=" ")
 
-
+C = [["Wrocław", 0, 2], ["Warszawa", 4, 3], ["Gdańsk", 2, 4], ["Kraków", 3, 1]]
 bitonicTSP( C )
