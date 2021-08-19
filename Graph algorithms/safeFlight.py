@@ -4,29 +4,55 @@ Each air corridor has an optimum flight ceiling for aircraft.
 You can fly through a corridor only if the aircraft ceiling differs from optimal ceiling for this corridor by no more than t.
 Check whether it is possible to fly from vertex x to vertex y without changing aircraft ceiling.
 """
-def solve(G, x, y, t):
+#time complexity: O(E * (V**2))
+def solveEff(G, x, y, t):
+    n = len(G)
+    E = []    
+    for i in range(n):
+        for j in range(i + 1, n):
+            if G[i][j] > 0:
+                E.append((G[i][j], (i, j)))
+    
+
+    E.sort()
+    m = len(E)
+    for i in range(m):
+        val = E[i][0] + 2*t
+        left = 0
+        right = m - 1
+        mid = None
+        while left <= right:
+            mid = (left + right) // 2
+            if E[mid][0] <= val:
+                left = mid + 1
+            else:
+                right = mid - 1
+        
+
+        GG = [[0 for _ in range(n)] for _ in range(n)]
+        for j in range(i, left):
+            val, (k, l) = E[j]
+            GG[k][l] = val
+            GG[l][k] = val
+        
+        if DFS(GG, x, y):
+            return True
+    return False
+
+
+
+def DFS(G, x, y):
     n = len(G)
     visited = [False for _ in range(n)]
-    def DFSVisit(i, visited, mini=float("inf"), maxi=0):
+
+    def DFSVisit(i):
         visited[i] = True
-        if i == y:
-            if maxi - mini <= 2 * t:
-                return True
-        
-
         for j in range(n):
-            if G[i][j] != 0 and G[i][j] != -1 and not visited[j]:
-                if DFSVisit(j, visited, min(G[i][j], mini), max(maxi, G[i][j])):
-                    return True
-        
-        
-        visited[i] = False
-
+            if not visited[j] and G[i][j] > 0:
+                DFSVisit(j)
     
-    if DFSVisit(x, visited):
-        return True
-    return False 
-
+    DFSVisit(x)
+    return visited[y]
 
 
 #does not exist
@@ -49,4 +75,4 @@ G = [
     [0, 0, 55, 0, 65, -1, 90],
     [0, 0, 0, 0, 0, 90, -1]
 ]
-print(solve(G, 0, 6, 15))
+print(solveEff(G, 0, 6, 15))
