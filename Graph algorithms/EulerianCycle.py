@@ -1,3 +1,4 @@
+#time complexity: O(V**2), space complexity: O(V + E)
 def euler(G):
     n = len(G)
     edges = 0
@@ -6,25 +7,25 @@ def euler(G):
         edges += degree
         if degree % 2 != 0:
             return False
+    
 
-
-    G_alt = [[G[i][j] for j in range(n)] for i in range(n)]
-    visited = 0
     cycle = []
     def DFSVisit(i):
-        nonlocal visited
         for j in range(n):
-            if G_alt[i][j] == 1:
-                G_alt[i][j] = 0
-                G_alt[j][i] = 0
-                visited += 1
+            if G[i][j] == 1:
+                G[i][j] = 0
+                G[j][i] = 0
                 DFSVisit(j)
         
         cycle.append(i)
-
+    
 
     DFSVisit(0)
-    if visited != edges//2:
+    for i in range(1, len(cycle)):
+        G[cycle[i - 1]][cycle[i]] = 1
+        G[cycle[i]][cycle[i - 1]] = 1
+    
+    if len(cycle) != edges//2 + 1:
         return False
     
 
