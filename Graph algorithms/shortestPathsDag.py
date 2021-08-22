@@ -10,25 +10,28 @@ def topological_sort(G, s):
                 DFSVisit(v)
         top_sorted.append(i)
 
-    DFSVisit(s)
-    
+    for i in range(n):
+        if not visited[i]:
+            DFSVisit(i)
+
 
     return top_sorted
 
 
 
-def shortestPaths(G, v_s):
+def shortestPaths(G, s):
     n = len(G)
     dist = [float("inf") for _ in range(n)]
-    top_sorted = topological_sort(G, v_s)
-    dist[v_s] = 0
+    top_sorted = topological_sort(G, s)
+    dist[s] = 0
 
 
     while top_sorted:
-        v = top_sorted.pop()
-        for u, w in G[v]:
-            if dist[u] > dist[v] + w:
-                dist[u] = dist[v] + w
+        u = top_sorted.pop()
+        if dist[u] != float("inf"):
+            for v, w in G[u]:
+                if dist[u] + w < dist[v]:
+                    dist[v] = dist[u] + w
 
     return dist
 
