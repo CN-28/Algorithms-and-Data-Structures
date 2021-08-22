@@ -1,19 +1,16 @@
 #find the shortest paths from source in DAG, time complexity: O(V + E)
-def topological_sort(G):
+def topological_sort(G, s):
     n = len(G)
     visited = [False for _ in range(n)]
     top_sorted = []
     def DFSVisit(i):
         visited[i] = True
-        for j in range(len(G[i])):
-            if not visited[G[i][j][0]]:
-                DFSVisit(G[i][j][0])
+        for v, c in G[i]:
+            if not visited[v]:
+                DFSVisit(v)
         top_sorted.append(i)
 
-
-    for i in range(n):
-        if not visited[i]:
-            DFSVisit(i)
+    DFSVisit(s)
     
 
     return top_sorted
@@ -23,7 +20,7 @@ def topological_sort(G):
 def shortestPaths(G, v_s):
     n = len(G)
     dist = [float("inf") for _ in range(n)]
-    top_sorted = topological_sort(G)
+    top_sorted = topological_sort(G, v_s)
     dist[v_s] = 0
 
 
@@ -37,5 +34,11 @@ def shortestPaths(G, v_s):
 
 
 
-G = [[(1, 40), (2, 5)], [(3, 20)], [(3, 2)], []]
+G = [
+    [(1, 1), (4, 8)],
+    [(2, 2)],
+    [(3, 4)],
+    [],
+    [(3, 1)]
+]
 print(shortestPaths(G, 0))
