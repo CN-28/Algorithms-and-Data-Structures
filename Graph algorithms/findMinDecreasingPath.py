@@ -1,33 +1,39 @@
-#array of edges representation
-def decreasing_path(G, s, t):
-    #m - number of edges
+#time complexity: O(E)
+def decreasing_path(G, x, y):
     m = len(G)
-    #n - number of vertices
+    bucketSort(G)
+    
     n = 0
-    for i in range(m):
-        n = max(n, G[i][0], G[i][1])
-    n += 1
+    for u, v, c in G:
+        n = max(n, u + 1, v + 1)
 
     
-    G.sort(key=lambda x: x[2], reverse=True)
-
+    dist = [float("inf") for _ in range(n)]
+    dist[x] = 0
+    for u, v, c in G:
+        if dist[u] + c < dist[v]:
+            dist[v] = dist[u] + c
+        if dist[v] + c < dist[u]:
+            dist[u] = dist[v] + c
     
-    dist = [float('inf') for _ in range(n)]
-    parent = [-1 for _ in range(n)]
-    dist[s] = 0
-    for i in range(m):
-        u, v, w = G[i]
-        if dist[u] + w < dist[v]:
-            dist[v] = dist[u] + w
-            parent[v] = u
-        elif dist[v] + w < dist[u]:
-            dist[u] = dist[v] + w
-            parent[u] = v
-
-    
-    return dist[t]
+    return dist[y]
 
 
-G = [(0, 1, 4), (1, 2, 10), (0, 4, 8), (1, 4, 11), (4, 5, 7), (4, 6, 4), (5, 6, 6), (2, 3, 2), (2, 5, 9), (3, 6, 3),
-     (6, 7, 5), (3, 7, 15), (3, 8, 8), (7, 8, 1)]
+
+def bucketSort(G):
+    n = len(G)
+    buckets = [[] for _ in range(n)]
+
+    for i in range(n):
+        buckets[G[i][2] - 1].append(G[i])
+
+    for i in range(n):
+        G[i] = buckets[n - 1 - i][0]
+
+
+
+G = [(0, 1, 7), (0, 4, 4), (1, 2, 6), (4, 5, 3), (4, 3, 5), (2, 3, 1), (2, 4, 2)]
+print(decreasing_path(G, 0, 3))
+
+G = [(0, 1, 12), (1, 2, 10), (0, 4, 8), (1, 4, 11), (4, 5, 7), (4, 6, 4), (5, 6, 6), (2, 3, 2), (2, 5, 9), (3, 6, 3), (6, 7, 5), (3, 7, 14), (3, 8, 13), (7, 8, 1)]
 print(decreasing_path(G, 0, 8))
