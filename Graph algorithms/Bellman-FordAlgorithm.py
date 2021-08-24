@@ -17,7 +17,7 @@ def Bellman_Ford(G, s):
     #check for negative-weight cycles
     for u in range(n):
         for v, c in G[u]:
-            if dist[u] + c < dist[v]:
+            if dist[u] != float("inf") and dist[u] + c < dist[v]:
                 return False
         
     return dist
