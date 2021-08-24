@@ -1,14 +1,14 @@
 #O(V**3), using modified Floyd-Warshall algorithm
 def transitiveClosureAM(G):
     n = len(G)
-    
     H = [[G[i][j] for j in range(n)] for i in range(n)]
+    
     for i in range(n):
         H[i][i] = 1
     for k in range(n):
         for i in range(n):
             for j in range(n):
-                H[i][j] = H[i][j] or (H[i][k] and H[k][j])
+                H[i][j] |= H[i][k] and H[k][j]
     
     return H
 
@@ -24,7 +24,7 @@ for x in transitiveClosureAM(G):
 
 
 
-#O(V*E), but Graph must be represented as Adjacency List
+#O(V*(V + E)), but graph must be represented as Adjacency List
 def transitiveClosureAL(G):
     n = len(G)
     H = [[0 for _ in range(n)] for _ in range(n)]
