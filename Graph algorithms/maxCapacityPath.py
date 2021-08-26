@@ -2,6 +2,7 @@ from queue import PriorityQueue
 def maxCapacity(G, s, t):
     n = len(G)
     parent = [-1 for _ in range(n)]
+    visited = [False for _ in range(n)]
     capacity = [float("inf") for _ in range(n)]
 
     Q = PriorityQueue()
@@ -9,10 +10,12 @@ def maxCapacity(G, s, t):
     while not Q.empty():
         c, u = Q.get()
         c = -c
+        visited[u] = True
         for v, w in G[u]:
-            parent[v] = u
-            capacity[v] = min(c, w)
-            Q.put((-capacity[v], v))
+            if not visited[v]:
+                parent[v] = u
+                capacity[v] = min(c, w)
+                Q.put((-capacity[v], v))
     
 
     temp = t
@@ -31,5 +34,5 @@ def maxCapacity(G, s, t):
 
 
 
-G = [[(1, 4), (2, 3)], [(3, 2)], [(3, 5)], []]
+G = [[(1, 4), (2, 3)], [(3, 5)], [(3, 5)], []]
 print(maxCapacity(G, 0, 3))
