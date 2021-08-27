@@ -7,16 +7,16 @@ class BSTNode:
 
 
 
-def insert(x, key):
+def insert(key, x=None):
     if not x:
         return BSTNode(key)
     
     
     if key < x.key:
-        x.left = insert(x.left, key)
+        x.left = insert(key, x.left)
         x.left.parent = x
     else:
-        x.right = insert(x.right, key)
+        x.right = insert(key, x.right)
         x.right.parent = x
     
     return x
@@ -64,9 +64,11 @@ def findNext(x):
 
 
 values = [15, 10, 20, 8, 12, 14, 25]
-root = None
-for val in values:
-    root = insert(root, val)
+for i in range(len(values)):
+    if i == 0:
+        root = insert(values[i])
+    else:
+        insert(values[i], root)
 
 
 print(findNext(root).key)
