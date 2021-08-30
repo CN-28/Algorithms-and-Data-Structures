@@ -1,87 +1,99 @@
+#assuming we don't insert into empty tree and delete the last node of the tree
 class BSTNode:
     def __init__(self, key):
         self.key = key
-        self.left = None
-        self.right = None
         self.parent = None
+        self.right = None
+        self.left = None
 
 
 
 def insert(root, key):
-    newNode = BSTNode(key)
-    y = None
     x = root
     while x:
         y = x
-        if newNode.key < x.key:
-            x = x.left
-        else:
+        if key > x.key:
             x = x.right
-    newNode.parent = y
-
-
-    if not y:
-        root = newNode
-    else:
-        if newNode.key < y.key:
-            y.left = newNode
-        elif newNode.key > y.key:
-            y.right = newNode
-    return root
+            if not x:
+                y.right = BSTNode(key)
+                y.right.parent = y
+                return True
+        elif key < x.key:
+            x = x.left
+            if not x:
+                y.left = BSTNode(key)
+                y.left.parent = y
+                return True
+        else:
+            return False
 
 
 
 def findMin(x):
-    curr = x
-    while curr.left:
-        curr = curr.left
-    return curr
+    while x.left:
+        x = x.left
+    return x
+
+
+def nextRightTree(x):
+    if x.right:
+        return findMin(x.right)
 
 
 
-def replace(root, newVal):
-    temp = 0
-    if root.parent:
-        if root == root.parent.left:
-            root.parent.left = newVal
-            temp = 1
+def remove(root, key):
+    if not root:
+        return False
+
+    x = root
+    while x:
+        y = x
+        if key > x.key:
+            x = x.right
+        elif key < x.key:
+            x = x.left
         else:
-            root.parent.right = newVal
-    if newVal:
-        newVal.parent = root.parent
-    if temp == 1:
-        return root.parent.left
-    else:
-        return root.parent.right
-
-
-
-def delete(root, key):
-    if key < root.key:
-        root.left = delete(root.left, key)
-        return root
-    if key > root.key:
-        root.right = delete(root.right, key)
-        return root
+            break
     
+    
+    if y.key == key:
+        #no children
+        if not y.right and not y.left:
+            if y.parent.right and y.parent.right == y:
+                y.parent.right = None
+            else:
+                y.parent.left = None
+            return True
+        #one child
+        elif not y.left and y.right:
+            y.right.parent = y.parent
+            if y.parent.left == y:
+                y.parent.left = y.right
+            else:
+                y.parent.right = y.right
+            return True
+        
+        elif not y.right and y.left:
+            y.left.parent = y.parent
+            if y.parent.left == y:
+                y.parent.left = y.left 
+            else:
+                y.parent.right = y.left
+            return True
+        #two children
+        else:
+            next = nextRightTree(y)
+            y.key, next.key = next.key, y.key
+            remove(next, key)
+            return True
 
-    if root.left and root.right:
-        succ = findMin(root.right)
-        root.key = succ.key
-        succ = delete(succ, succ.key)
-    elif root.left:
-        root = replace(root, root.left)
-    elif root.right:
-        root = replace(root, root.right)
-    else:
-        root = replace(root, None)
-    return root
- 
+
+    return False
 
 
-root = None
-root = insert(root, 4)
-root = insert(root, 5)
-root = insert(root, 3)
-root = delete(root, 4)
-print(root.left.key)
+
+root = BSTNode(20)
+A = [27, 18, 25, 29, 28, 30, 26, 24]
+for key in A:
+    insert(root, key)
+remove(root, 29)
