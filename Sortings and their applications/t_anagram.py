@@ -1,16 +1,17 @@
+#exam 2021, 0 exam date
 from collections import deque
-
-def tanagram(x, y, t):
+def tanagarm(x, y, t):
     n = len(x)
-    positions = [deque() for _ in range(26)]
+    count = [deque() for _ in range(26)]
     for i in range(n):
-        positions[ord(y[i]) - 97].append(i)
+        count[ord(x[i]) - ord('a')].append(i)
+    
     for i in range(n):
-        if len(positions[ord(x[i]) - 97]) == 0:
+        if not count[ord(y[i]) - ord('a')] or abs(count[ord(y[i]) - ord('a')].popleft() - i) > t:
             return False
-        closest = positions[ord(x[i]) - 97].popleft()
-        if abs(closest - i) > t:
-            return False
-
-
     return True
+
+
+A = "kotomysz"
+B = "tokmysoz"
+print(tanagarm(A, B, 3))
