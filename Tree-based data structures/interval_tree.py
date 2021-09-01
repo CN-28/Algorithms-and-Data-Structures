@@ -33,9 +33,9 @@ def tree(A):
 def tree_print(X, ind=""):
 
     if X.leaf:
-        print(ind, "leaf-span: [%d, %d] --> " % (X.left, X.right), X.intervals);
+        print(ind, "leaf-span: [%d, %d] --> " % (X.left, X.right), X.intervals)
     if not X.leaf:
-        print(ind, "cut = %d," % X.cut, "span = [%d, %d], " % (X.left, X.right), "intervals =", X.intervals);
+        print(ind, "cut = %d," % X.cut, "span = [%d, %d], " % (X.left, X.right), "intervals =", X.intervals)
         tree_print(X.lchild, ind + "  ")
         tree_print(X.rchild, ind + "  ")
 
